@@ -22,6 +22,9 @@ echo -e "\e[33m\xe2\x8f\xb3 Installing NVIDIA proprietary Driver now ... \e[m"
 echo -e "\e[32m The version of the driver is \e[33m""$([[ "$INSTALLER" =~ ^.*\-(.*)\.run$ ]] && echo "${BASH_REMATCH[1]}")\e[m"
 read -rp "Press any key to continue ... " -n1 -s
 echo
+if [ ! -d /etc/nvidia/nvidia-application-profiles-rc.d ]; then
+  mkdir -p /etc/nvidia/nvidia-application-profiles-rc.d
+fi
 if ! sh "$INSTALLER" \
      --utility-prefix=/opt/nvidia \
      --opengl-prefix=/opt/nvidia \
@@ -32,7 +35,7 @@ if ! sh "$INSTALLER" \
      --x-library-path=/opt/nvidia/lib64 \
      --x-sysconfig-path=/etc/X11/xorg.conf.d \
      --documentation-prefix=/opt/nvidia \
-     --application-profile-path=/etc/nvidia \
+     --application-profile-path=/etc/nvidia/nvidia-application-profiles-rc.d \
      --no-precompiled-interface \
      --no-distro-scripts \
      --force-libglx-indirect \
